@@ -27,6 +27,7 @@ echo -e "\ntail the agent log, follow for a few seconds"
 docker logs --tail 5 -f $AGENT_CID &
 sleep 5 
 
-echo -e "\nremove containers"
-docker rm -f $AGENT_CID $WP_CID $MAILER_CID $DB_CID
+echo -e "\nstop and remove containers"
+docker stop $AGENT_CID $WP_CID $MAILER_CID $DB_CID
+docker rm $AGENT_CID $WP_CID $MAILER_CID $DB_CID
 
