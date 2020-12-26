@@ -1,15 +1,16 @@
-from debian:buster-20190910
-label maintainer="dia@allinggeek.com"
-run groupadd -r -g 2200 example && useradd -rM -g example -u 2200 example
-env APPROOT="/app" \
+FROM debian:buster-20190910
+ARG VERSION=unknown
+LABEL maintainer="dia@allinggeek.com"
+RUN groupadd -r -g 2200 example && useradd -rM -g example -u 2200 example
+ENV APPROOT="/app" \
     APP="mailer.sh" \
     Version="0.6"
-label base.name="Mailer Archetype" \
+LABEL base.name="Mailer Archetype" \
       base.version="${VERSION}"
-workdir $APPROOT
-add . $APPROOT
-entrypoint ["/app/mailer.sh"]
-expose 33333
+WORKDIR $APPROOT
+ADD . $APPROOT
+ENTRYPOINT ["/app/mailer.sh"]
+EXPOSE 33333
 # Do not set the default user in the base otherwise
 # implementations will not be able to update the image
 # USER exampl:example
