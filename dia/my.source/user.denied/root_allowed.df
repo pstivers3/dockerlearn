@@ -1,0 +1,3 @@
+FROM busybox:1.29
+ENTRYPOINT ["nc"]
+CMD ["-l", "-p", "80", "0.0.0.0"]
