@@ -1,0 +1,13 @@
+nginx_ssh$ docker build -t nginx_ssh:latest .
+
+docker run -d --name ssh_client nginx_ssh:latest
+docker run -d --name ssh_server nginx_ssh:latest
+
+docker exec -it ssh_server /bin/bash -c 'service ssh start'
+docker exec -it ssh_server /bin/bash -c 'hostname -i'
+
+docker exec -it ssh_client /bin/bash
+/# ssh -i /home/deploy/.ssh/id_rsa deploy@172.17.0.3 'echo "$(whoami)@$(hostname -i) says success!"'
+/# su - deploy
+$ ssh deploy@172.17.0.3 'echo "$(whoami)@$(hostname -i) says success!"'
+
