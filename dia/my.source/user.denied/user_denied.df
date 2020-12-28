@@ -1,4 +1,6 @@
 FROM busybox:1.29
+RUN  adduser paul
 USER 1000:1000 
 ENTRYPOINT ["nc"]
+# dia says user denied upon run, but it's allowed
 CMD ["-l", "-p", "80", "0.0.0.0"]
