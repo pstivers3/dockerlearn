@@ -1,4 +1,4 @@
-# to build the image
+# to build the image from Dockerfile
 nginx_ssh$ docker build -t nginx_ssh:latest .
 
 # to pull the image from dockerhub
