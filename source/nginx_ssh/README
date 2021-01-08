@@ -1,31 +1,40 @@
 # to build the image from Dockerfile
 nginx_ssh$ docker build -t nginx_ssh:latest .
 
-# to pull the image from dockerhub
+# to pull the image from dockerhub and add another tag to the image
 docker login # if not already logged in
 docker pull pstivers3/nginx_ssh:latest
+docker tag pstivers3/nginx_ssh:latest nginx_ssh:latest
 
-# to run the contaners in docker
+### to run the contaners in docker ###
+
 docker run -d --name ssh-client nginx_ssh:latest
 docker run -d --name ssh-server nginx_ssh:latest
 
 docker exec -it ssh-server /bin/bash -c 'service ssh start'
-docker exec -it ssh-server /bin/bash -c 'hostname -i' # use the output IP address in the ssh commands below
+# get the IP address of the ssh-server
+docker exec -it ssh-server /bin/bash -c 'hostname -i'
 
-# to bind to the ssh-client container command line in docker
+# to bind to the container command line
 docker exec -it ssh-client /bin/bash
 
-# to run the containers in kubernetes
-kubectl run ssh-client --image=pstivers3/nginx_ssh:latest
-kubectl run ssh-server --image=pstivers3/nginx_ssh:latest
+### to run the containers in kubernetes ###
+
+kubectl run ssh-client --image=nginx_ssh:latest
+kubectl run ssh-server --image=nginx_ssh:latest
 
 kubectl exec -it ssh-server -- /bin/bash -c 'service ssh start'
-kubectl exec -it ssh-server -- /bin/bash -c 'hostname -i' # use the output IP address in the ssh commands below
 
-# to bind to the ssh-client container command line in kubernetes
+# get the IP address of the ssh-server
+kubectl exec -it ssh-server -- /bin/bash -c 'hostname -i'
+# can also inspect the container for IP address
+kubectl get pod ssh-client -o jsonpath --template={.status.podIP}; echo
+
+# to bind to the container command line
 kubectl exec -it ssh-client -- /bin/bash
 
-# test the containers from command line of ssh-client
+### test the containers from command line of ssh-client ###
+
 /# ssh -i /home/deploy/.ssh/id_rsa deploy@<ip of ssh-server> 'echo "$(whoami)@$(hostname -i) says success!"'
 /# su - deploy
 $ ssh deploy@<ip of ssh-server> 'echo "$(whoami)@$(hostname -i) says success!"'
