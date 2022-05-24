@@ -1,15 +1,7 @@
-# to build the image from Dockerfile
-nginx_ssh$ docker build -t nginx_ssh:latest .
-
-# to pull the image from dockerhub and add another tag to the image
-docker login # if not already logged in
-docker pull pstivers3/nginx_ssh:latest
-docker tag pstivers3/nginx_ssh:latest nginx_ssh:latest
-
 ### to run the contaners in docker ###
 
-docker run -d --name ssh-client nginx_ssh:latest
-docker run -d --name ssh-server nginx_ssh:latest
+docker run -d --name ssh-client nginx-ssh:latest
+docker run -d --name ssh-server nginx-ssh:latest
 
 docker exec -it ssh-server /bin/bash -c 'service ssh start'
 # get the IP address of the ssh-server
@@ -20,8 +12,8 @@ docker exec -it ssh-client /bin/bash
 
 ### to run the containers in kubernetes ###
 
-kubectl run ssh-client --image=nginx_ssh:latest
-kubectl run ssh-server --image=nginx_ssh:latest
+kubectl run ssh-client --image=nginx-ssh:latest
+kubectl run ssh-server --image=nginx-ssh:latest
 
 kubectl exec -it ssh-server -- /bin/bash -c 'service ssh start'
 
