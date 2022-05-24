@@ -1,3 +1,6 @@
+# For experimental puposes only.
+# SSH should not normally be enabled in containers
+
 ### to run the contaners in docker ###
 
 docker run -d --name ssh-client nginx-ssh:latest
